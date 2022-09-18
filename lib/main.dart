@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/ToDo_model.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +36,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String vrijeme = DateFormat("HH:mm:ss").format(DateTime.now());
+
+  void _update() {
+    setState(() {
+      vrijeme = DateFormat("HH:mm:ss").format(DateTime.now());
+    });
+  }
+
+  @override
+  void initState() {
+    Timer.periodic(const Duration(seconds: 1), ((timer) => _update));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,25 +75,25 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
-                SizedBox(
+              children: <Widget>[
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
-                  "02 : 36 PM",
+                  "${vrijeme}",
                   style: TextStyle(
                       color: Colors.white70,
                       fontSize: 45,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   "current time",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 )
               ],
@@ -99,23 +116,23 @@ class _MyHomePageState extends State<MyHomePage> {
                           margin: const EdgeInsets.only(
                               bottom: 8, left: 16, right: 16),
                           child: ListTile(
-                            contentPadding: EdgeInsets.only(
+                            contentPadding: const EdgeInsets.only(
                                 left: 32, right: 32, top: 8, bottom: 8),
                             title: Text(
                               todo.taskList[index].title,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             subtitle: Text(
                               todo.taskList[index].detail,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            trailing: Icon(
+                            trailing: const Icon(
                               Icons.check_circle,
                               color: Colors.greenAccent,
                             ),
@@ -130,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: () {
             Provider.of<TodoModel>(context, listen: false).addTaskInList();
           },
